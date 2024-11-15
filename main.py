@@ -3,21 +3,18 @@ import time
 import pyscreeze
 from python_imagesearch.imagesearch import *
 
-#pyautogui.moveTo(1000,100, duration = 0.2)
-
-#pyautogui.leftClick(1000, 100, 2, 1)
-
-# img = imagesearch_loop("./imgs/apple.png", 0.2)
-# print(img)
-# time.sleep(2)
 def refresh():
     '''
     if nothing is found, refresh
     '''
-    refresh = pyscreeze.locateOnScreen("./imgs/refresh.png", confidence=0.8)
-    pyautogui.click(refresh)
-    confirm = pyscreeze.locateOnScreen("./imgs/confirm2.png", confidence=0.8)
-    pyautogui.click(confirm)
+    try:
+        refresh_button = pyscreeze.locateOnScreen("./imgs/refresh.png", confidence=0.8)
+        pyautogui.click(refresh_button)
+        time.sleep(0.14)
+        confirm = pyscreeze.locateOnScreen("./imgs/confirm2.png", confidence=0.8)
+        pyautogui.click(confirm)
+    except Exception:
+        refresh()
 
 
 def scroll():
@@ -43,7 +40,6 @@ def covenant():
         # center = pyautogui.center(location)
         top = location[1]
         height = location[3]
-        pyautogui.moveTo(location)
         #buy()
         buybuttons(top, height, 0)
 def mystic():
@@ -51,25 +47,46 @@ def mystic():
     # center = pyautogui.center(location)
     top = location[1]
     height = location[3]
-    pyautogui.moveTo(location)
     #buy_mystic()
     buybuttons(top, height, 1)
 
 def buy():
-    type = pyscreeze.locateOnScreen("./imgs/covenant.png", confidence=0.8)
-    buy = pyscreeze.locateOnScreen("./imgs/buy_covenant.png", confidence=0.8)
-    pyautogui.click(buy)
+    try:
+        type = pyscreeze.locateOnScreen("./imgs/covenant.png", confidence=0.8)
+    except Exception:
+        cancel = pyscreeze.locateOnScreen("./imgs/cancel.png", confidence=0.8)
+        pyautogui.click(cancel)
+    else:
+        buy = pyscreeze.locateOnScreen("./imgs/buy_covenant.png", confidence=0.8)
+        pyautogui.click(buy)
 def buy_mystic():
-    type = pyscreeze.locateOnScreen("./imgs/mystic.png", confidence=0.8)
-    buy = pyscreeze.locateOnScreen("./imgs/buy_mystic.png", confidence=0.8)
-    pyautogui.click(buy)
+    try:
+        type = pyscreeze.locateOnScreen("./imgs/mystics.png", confidence=0.8)
+    except Exception:
+        cancel = pyscreeze.locateOnScreen("./imgs/cancel.png", confidence= 0.8)
+        pyautogui.click(cancel)
+    else:
+        buy = pyscreeze.locateOnScreen("./imgs/buy_mystic.png", confidence=0.8)
+        pyautogui.click(buy)
 def confirm():
     pass
 
-def main():
+def search():
+    time.sleep(0.15)
     try:
         covenant()
     except Exception:
-        print("notfound")
-        main()
+        pass
+    finally:
+        try:
+            mystic()
+        except Exception:
+            pass
+def main():
+    time.sleep(0.5)
+    search()
+    scroll()
+    search()
+    refresh()
+    main()
 main()
