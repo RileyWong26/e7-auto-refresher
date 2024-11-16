@@ -1,2 +1,4 @@
-# e7 auto refresher
- 
+# Automatic shoprefresher for epic seven
+
+I AM NOT RESPONSIBLE FOR MISSING COVENANT OR MYSTIC MEDALS.  THIS PROGRAM WORKS 99.9% OF THE TIME
+
