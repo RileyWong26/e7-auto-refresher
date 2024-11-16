@@ -25,7 +25,8 @@ def scroll():
 
 def buybuttons(top, height, type):
     '''
-    find buy button that is in the same row as the mats
+    find buy button that is in the same row as the mats,
+    depending what type it is do a following check
     '''
     confirm = pyscreeze.locateAllOnScreen("./imgs/confirm.png", confidence=0.8)
     for button in confirm:
@@ -35,22 +36,31 @@ def buybuttons(top, height, type):
         buy()
     elif type == 1: 
         buy_mystic()
+
 def covenant():
-        location = pyscreeze.locateOnScreen("./imgs/covenant.png", confidence=0.8)
-        # center = pyautogui.center(location)
-        top = location[1]
-        height = location[3]
-        #buy()
-        buybuttons(top, height, 0)
-def mystic():
-    location = pyscreeze.locateOnScreen("./imgs/mystics.png", confidence=0.8)
-    # center = pyautogui.center(location)
+    '''
+    look for covenant item in shop, then click the buy button that is within the same column as it
+    '''
+    location = pyscreeze.locateOnScreen("./imgs/covenant.png", confidence=0.8)
     top = location[1]
     height = location[3]
-    #buy_mystic()
+
+    buybuttons(top, height, 0)
+def mystic():
+    '''
+    look for mystic item in shop, then send its column dimensions
+    '''
+    location = pyscreeze.locateOnScreen("./imgs/mystics.png", confidence=0.8)
+    top = location[1]
+    height = location[3]
+
     buybuttons(top, height, 1)
 
 def buy():
+    '''
+    Check the item is covenant bookmarks, if it is not, press cancel
+    if it is buy it
+    '''
     try:
         type = pyscreeze.locateOnScreen("./imgs/covenant.png", confidence=0.8)
     except Exception:
@@ -60,6 +70,9 @@ def buy():
         buy = pyscreeze.locateOnScreen("./imgs/buy_covenant.png", confidence=0.8)
         pyautogui.click(buy)
 def buy_mystic():
+    '''
+    check the item is the right one, if not press cancel, otherwise buy it
+    '''
     try:
         type = pyscreeze.locateOnScreen("./imgs/mystics.png", confidence=0.8)
     except Exception:
@@ -72,6 +85,9 @@ def confirm():
     pass
 
 def search():
+    '''
+    main search function, searches for both covenants and mystics
+    '''
     time.sleep(0.15)
     try:
         covenant()
@@ -83,6 +99,9 @@ def search():
         except Exception:
             pass
 def main():
+    '''
+    main function, is the loop that runs every shop cycle
+    '''
     time.sleep(0.5)
     search()
     scroll()
